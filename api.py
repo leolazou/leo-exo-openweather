@@ -73,9 +73,12 @@ def login():
     login, pw = get_req_params(request, 'login', 'password')
 
     user_ref = users.child(login)
+    user = user_ref.get()
     token = token_hex(10)
- 
-    if user_ref.get()['pw'] != pw:
+
+    if not user:
+        return make_response(jsonify({"message":"No such user exists."}), 401)
+    elif user['pw'] != pw:
         return make_response(jsonify({"message":"Wrong password."}), 401)
 
     user_ref.update({
