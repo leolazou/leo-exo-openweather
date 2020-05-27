@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "leo-exo-openweather",
+  "private_key_id": "2dbe4bc5612de492b71ae130f9153dbfd12e8283",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCoNXHuo1XfHf2C\nTK1C749qWB4igkg1Gwqe8u12s+QZElFmcefOlyWLoiwdstyfsOzy1LTPUG9vkbuW\ntJcj+JYq1BO7UY0veJLNVRI6mRL87gb1FqeLD9yZADNLcuA9Jaoppb6mYTiBHsF6\nDrV9uDlzRXjM6IG5bWXyLQ95tJn3MZr/FPuSh+OPiHn+NFOdAdYYjBpNdFIqstR8\n59/UKTX985LQP2dmpkXfvI/C6WPfnucz2MNAfs1kZKNurpQ6hAwuqm/YinkF4Rxb\nG/QlgIfK37kn/cRu2cF40YTfxZndTjX1iV3dSQKFpZb2K11LkOPAn4BdqKCt/tf0\nfF0596ObAgMBAAECggEAOCHNqWMcTt6FMKxBzWqAI27Qb5emXQJvIufSUqBpZ+xy\n+YrdXlWWE+jEbAy6DxhNmiNdSyl+Zm7teLc/EKPuCNDI3OO0B7lm09qlwKRAb+NG\nsxciRge/B9fHRlBJgF5HUKqc2ozq/Du1OPQboJ6PnWX7j/WvBJ/7OzvKRET+dDyw\n9YrBY8dhz/bzZZDLFArVixI9pnPE3lp5kbgB9akhyE30pWcOied2R5iFdkoyqXRh\nFFz6d525z9Ve3tZiQ0lTkpikEnEwhKNDM3deWSPJMxrL47cB5kuJ2Ach/n8XFTkK\n4jYXBaD4sO53r/a+ubcdZEHxAf9kxMCe9jtFzEXnMQKBgQDW4kvoh/lTNtlhEmXA\n+TaQrfMg9mQOc8P4uV4pkRWOFtPE+63LUKrV1/LMH1WLdhTjxPQF5OsbVvQyN67t\nJ6F8ODZ/Iby4Hx7JlUzZntXy3INXjq08mmEPFLL+ya/focM9pkEmBpLPiJEnmXXa\nS1SWLEAsnJl9+HJVjBuRQeuLfQKBgQDIZNkZnQ3mw6niWAi35oQ/MK5c/i2zPlOw\n2VysPveRsTwqx6A+CElk8dG2Kwm1fK1bnS0v7K0sZ2TkcREaunFcG6yKWSUKyetR\naASBpVVQj3PT1sIUKf+o9iViCZ4UFKHXYQoqE4ijMu9kNqM4OHiG2bNJsCbRkJEH\n9Tdh2hWm9wKBgE+3ykNs1mE5svFhOuCZU9XewpjS75Gw/t3yHu26xk1dSJkGaZZI\nyeflYky5vymq19scAQ+Cunn9C0DqCXovvqfvzr/hSzrfSLOuMMF3PJYJmqxL4Rbf\niuxmWHVPa3DCeUUQvZCW1bYqSvdu5hri4XGI3xHt0r+6AOidvshntTOdAoGAIewg\nbBuP/N5mZbBtWWQmQuQkwA0vA0aruCYzb90A36LXAo7ka1vPwMzGqUXD0PsYBYgn\n3BL+haPDCoCxWorxIZx1qr3IbXkc4pzvFls8g/SksNmL5QnvA1UXou7p2ZBcjS8a\nH2FLIgU/TQGKw7ube4hitzigeZ01T9mM1H2saKUCgYAl/RriqZZpeqBd0yBk3b/0\nganY6zfNT6Y3lI6x4MrqFlCHPC7cx42vJUkw7rVzNINkAmubSZ0kqai+DWw9s61n\nNat2t/06HrSO1MlyZkdFAltrufCKlTvNFEOjFNx3hVIHWAY29E91yu16sA+LgyTN\ng/3kYYrA2ZE49ItVDTKi/A==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-access@leo-exo-openweather.iam.gserviceaccount.com",
+  "client_id": "102499958755208928877",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-access%40leo-exo-openweather.iam.gserviceaccount.com"
+}
