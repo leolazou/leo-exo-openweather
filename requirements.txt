@@ -1,2 +1,7 @@
+### requirements file for Google App Engine
+
 flask
 firebase-admin
+
+# for defining a custom entrypoint on Google App Engine
+gunicorn
