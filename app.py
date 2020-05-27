@@ -173,9 +173,10 @@ def receive_item():
         item_ref.child('send/'+token).update({'status':'received'})
         return make_response(jsonify({'message':'Success. Item received.'}), 200)
 
-@api.route('/*')
-def default():
-    return make_response(jsonify({'message':'Test project. Refer to Readme on Github.s'}))
+@api.errorhandler(404)
+@api.errorhandler(405)
+def not_found(e):
+    return make_response(jsonify({'message':'Test project. Refer to Readme on Github.'}), 404)
 
 if __name__ == '__main__':
     api.run()
