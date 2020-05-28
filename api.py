@@ -121,9 +121,13 @@ def new_item():
 def delete_item(item_id):
     token, = get_req_params(request, 'token')
     user = get_user_from_token(token)
+    item = items.child(item_id).get()
+
+    if not item:
+        return make_response(jsonify({'message':'No such item exists.'}), 200)
 
     # checking that item owner is token owner
-    if user['id'] != items.child(item_id).get()['user']:
+    if user['id'] != item['user']:
         return make_response(jsonify({'message':'Failed. Bad token.'}), 400)
 
     # deleting item from DB
