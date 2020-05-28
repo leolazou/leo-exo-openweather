@@ -176,10 +176,17 @@ def receive_item():
         item_ref.child('send/'+token).update({'status':'received'})
         return make_response(jsonify({'message':'Success. Item received.'}), 200)
 
+
+# Errors
 @api.errorhandler(404)
 @api.errorhandler(405)
 def not_found(e):
     return make_response(jsonify({'message':'Test project. Refer to Readme on Github.'}), 404)
+
+@api.errorhandler(Exception)
+def error(e):
+    return make_response(jsonify({'message':'Something went wrong...'}), 500 )
+
 
 if __name__ == '__main__':
     api.run()
