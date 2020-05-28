@@ -4,6 +4,9 @@ from firebase_admin import db
 from secrets import token_hex
 import time
 
+
+### Some initialization
+
 # Flask app
 api = Flask(__name__)
 
@@ -13,20 +16,25 @@ firebase.initialize_app(fb_cred, {
     'databaseURL' : 'https://leo-exo-openweather.firebaseio.com/'
 })
 
-# db references. This retrieves no data
+# DB references. This retrieves no data
+# Calls to Firebase are performed when calling get(), set(), update(), push(), and delete()
 root = db.reference('/')
 users = db.reference('/users/')
 items = db.reference('/items/')
 
 
-# Constants
+
+### Constants
+
 login_token_time = 1800  # 30 minutes
 
 
-# helper functions
+
+### Helper functions
 
 def get_user_from_token(token):
-    user = users.order_by_child('logins/token').equal_to(token).get()   
+    # retrieves the user (json) from a login token
+    user = users.order_by_child('logins/token').equal_to(token).get()  # retuerns a list of users matching the query
     if not user:  # check : user exists ?
         abort(make_response(jsonify({'message':'Failed. Bad token.'}), 401))
     elif len(user.values()) > 1:  # for improbable (1:10^24 for 2 users) cases when 2 users have same temporary token
@@ -34,20 +42,21 @@ def get_user_from_token(token):
     
     user = next(iter(user.values()))  # getting the first user
     if int(time.time()) - user['logins']['time'] > login_token_time:  # check : token not expired ?
-        abort(make_response(jsonify({'message':'Failed. Expired token'}), 400))
+        abort(make_response(jsonify({'message':'Failed. Expired token'}), 401))
     else:
         return user
 
 def get_req_params(req, *req_params):
+    # checking if all request parameters are present then returning their values
     if not req.args or not all(e in req.args for e in req_params):
         abort(make_response(jsonify({'message':'Failed. Missing parameters.'}), 400))
     return (req.args[a] for a in req_params)
 
 
 
-# API endpoints
+### API endpoints
 
-@api.route('/test', methods=['GET'])
+@api.route('/test', methods=['GET'])  # kind of ping
 def test():
     return jsonify({'message':'I am alive.'}), 217
     
@@ -81,6 +90,7 @@ def login():
     elif user['pw'] != pw:
         return make_response(jsonify({"message":"Wrong password."}), 401)
 
+    # saving token & login time to DB
     user_ref.update({
         'logins':{
             'token':token,
@@ -89,11 +99,13 @@ def login():
     })
     return make_response(jsonify({"message":"Logged in.","token":token}), 200)    
 
+
 @api.route('/items/new', methods=['POST'])
 def new_item():
     item, token = get_req_params(request, 'item', 'token')
     user = get_user_from_token(token)
     
+    # saving new item to DB. item id (key) automatically generated
     new_item = items.push({
         'user':user['id'],
         'item':item
@@ -103,17 +115,21 @@ def new_item():
             'item_id':new_item.key,
             'item':item
         }), 200)
-    
+
+
 @api.route('/items/<item_id>', methods=['DELETE'])
 def delete_item(item_id):
     token, = get_req_params(request, 'token')
     user = get_user_from_token(token)
 
-    if user['id'] != items.child(item_id).get()['user']:  # if item owner differs from token owner
+    # checking that item owner is token owner
+    if user['id'] != items.child(item_id).get()['user']:
         return make_response(jsonify({'message':'Failed. Bad token.'}), 400)
 
+    # deleting item from DB
     items.child(item_id).delete()
     return make_response(jsonify({'message':'Item deleted.'}), 200)
+
 
 @api.route('/items', methods=['GET'])
 def list_user_items():
@@ -128,6 +144,7 @@ def list_user_items():
             "login":user['id'],
             "items": user_items
         }), 200)
+
 
 @api.route('/send', methods=['POST'])
 def send_item():
@@ -146,7 +163,7 @@ def send_item():
     send_token = token_hex(10)
     url = request.url_root +'receive' + '?item_id=' + item_id + '&token=' + send_token
 
-    # unders send/ attribute creating a new send token for each send (so that 1 item can be sent to mult users)
+    # adds send/ attribute creating a new send token for each send (so that 1 item can be sent to mult users)
     item_ref.child('send').child(send_token).set({
         'receiver':receiver['id'],
         'time':int(time.time()),
@@ -159,33 +176,36 @@ def send_item():
         'url':url
     }))
 
+
 @api.route('/receive/', methods=['GET'])
 def receive_item():
     item_id, token = get_req_params(request, 'item_id', 'token')
     item_ref = items.child(item_id)
     item = item_ref.get()
 
-    if not item:
+    if not item:  # if no item with given id found
         return make_response(jsonify({'massage':'Fail. Item not found.'}), 404)
-    elif token not in item['send']:
+    elif token not in item['send']:  # if wrong token
         return make_response(jsonify({'message':'Fail. Unauthorised.'}), 401)
-    elif int(time.time()) > item['send'][token]['expires']:
-        item_ref.child('send/'+token).update({'status':'late for delivery'})  # updating status
+    elif int(time.time()) > item['send'][token]['expires']:  # if token expired
+        # updating status to inform that the receiver tried to get the item but token expired
+        item_ref.child('send/'+token).update({'status':'late for delivery'})
         return make_response(jsonify({'message':'Fail. You\'re late for delivery.'}), 401)
     else:
+        # updating status to inform that the receiver received the item
         item_ref.child('send/'+token).update({'status':'received'})
         return make_response(jsonify({'message':'Success. Item received.'}), 200)
 
 
 # Errors
-@api.errorhandler(404)
-@api.errorhandler(405)
+@api.errorhandler(404)  # all other paths
+@api.errorhandler(405)  # bad method used
 def not_found(e):
     return make_response(jsonify({'message':'Test project. Refer to Readme on Github.'}), 404)
 
-@api.errorhandler(Exception)
+@api.errorhandler(Exception)  # server problems
 def error(e):
-    return make_response(jsonify({'message':'Something went wrong...'}), 500 )
+    return make_response(jsonify({'message':'Something went wrong...'}), 500)
 
 
 if __name__ == '__main__':
