@@ -1,10 +1,10 @@
-Test task for OpenWeather
+Test task for OpenWeather by Leo
 =======
 
 
 ## TLDR
 
-Goal: Create a simple API. Result: API deployed to Google App Engine, can be accessed [here](https://leo-exo-openweather.nw.r.appspot.com/). Or clone and run the `api.py` file manually. By Leo.
+Goal: Create a simple API. Result: API deployed to Google App Engine, can be accessed [here](https://leo-exo-openweather.nw.r.appspot.com/). Or clone and run the `api.py` file manually.
 
 
 ## Tech stack
