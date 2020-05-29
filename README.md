@@ -96,6 +96,7 @@ In the Firebase DB data is structured as follows :
 ## Remarks
 
 * login & password could have been encrypted
+* *app.yaml* file is for deployment to App Egine. so is the *gunicorn* module
 * putting a Firebase service account key on a public github ain't such a good idea. But necessary to run the api on a local machine. It also has minimum necessary permissions.
 * currently the code lacks `try+except` blocks. Instead, errors are caught by `@api.errorhandler` and a very non informative fail message is returned.
 * user can have 1 simultaneous login max
